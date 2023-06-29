@@ -29,7 +29,7 @@ const requestConfig = {
   // Code language (only JavaScript is currently supported)
   codeLanguage: CodeLanguage.JavaScript,
   // String containing the source code to be executed
-  source: fs.readFileSync("./proveSecret.js").toString(),
+  source: fs.readFileSync("./proveSecretScript.js").toString(),
   //source: fs.readFileSync('./API-request-example.js').toString(),
   // Secrets can be accessed within the source code with `secrets.varName` (ie: secrets.apiKey). The secrets object can only contain string values.
   secrets: [process.env.SECRET_WORD, process.env.MUMBAI_RPC_URL],
