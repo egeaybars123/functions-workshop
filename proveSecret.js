@@ -11,12 +11,14 @@ const stringToHex = (str) => {
   return hex
 }
 
-const hexSecret = stringToHex(secrets[0].secretWord)
+const hexSecret = stringToHex(secrets[0])
 
 const addressWithSecret = walletAddress + hexSecret
+console.log(addressWithSecret)
+console.log(secrets[1])
 
 const alchemyKeccakRequest = Functions.makeHttpRequest({
-  url: secrets[1].alchemyApi,
+  url: secrets[1],
   method: "POST",
   data: {
     jsonrpc: "2.0",
@@ -28,7 +30,8 @@ const alchemyKeccakRequest = Functions.makeHttpRequest({
 
 const [alchemyKeccakResponse] = await Promise.all([alchemyKeccakRequest])
 
-const resultHash = alchemyKeccakResponse.result
+const resultHash = alchemyKeccakResponse.data.result
+console.log(resultHash)
 
 if (resultHash === inputHash) {
   console.log("Address knows the secret")

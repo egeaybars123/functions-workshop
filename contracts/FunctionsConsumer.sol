@@ -46,7 +46,7 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
     uint32 gasLimit
   ) public onlyOwner returns (bytes32) {
     require(
-      keccak256(abi.encodePacked(toString(msg.sender))) == keccak256(abi.encodePacked(args[1])),
+      keccak256(abi.encodePacked(toString(msg.sender))) == keccak256(abi.encodePacked(args[0])),
       "Not the specified address"
     );
 

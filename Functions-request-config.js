@@ -29,17 +29,15 @@ const requestConfig = {
   // Code language (only JavaScript is currently supported)
   codeLanguage: CodeLanguage.JavaScript,
   // String containing the source code to be executed
-  source: fs.readFileSync("./calculation-example.js").toString(),
+  source: fs.readFileSync("./proveSecret.js").toString(),
   //source: fs.readFileSync('./API-request-example.js').toString(),
   // Secrets can be accessed within the source code with `secrets.varName` (ie: secrets.apiKey). The secrets object can only contain string values.
-  secrets: [{ secretWord: process.env.SECRET_WORD ?? "" }, { alchemyApi: process.env.MUMBAI_RPC_URL ?? "" }],
+  secrets: [process.env.SECRET_WORD, process.env.MUMBAI_RPC_URL],
   // Per-node secrets objects assigned to each DON member. When using per-node secrets, nodes can only use secrets which they have been assigned.
   perNodeSecrets: [],
   // ETH wallet key used to sign secrets so they cannot be accessed by a 3rd party
   walletPrivateKey: process.env["PRIVATE_KEY"],
-
   // Args (string only array) can be accessed within the source code with `args[index]` (ie: args[0]).
-  //args: ["1", "bitcoin", "btc-bitcoin", "btc", "1000000", "450"],
   args: [
     "0x203560aca0aa5aac09d9708ce29b60aa3e4366a8",
     "0xb45c98a1c0cdac3badb0d6bce0a0ba1805704ddb1caa3d20a602b8854474bc9d",
