@@ -34,7 +34,7 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
    * @param source JavaScript source code
    * @param secrets Encrypted secrets payload
    * @param args List of arguments accessible from within the source code
-   * @param subscriptionId Funtions billing subscription ID
+   * @param subscriptionId Functions billing subscription ID
    * @param gasLimit Maximum amount of gas used to call the client contract's `handleOracleFulfillment` function
    * @return Functions request ID
    */
@@ -45,6 +45,11 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
     uint64 subscriptionId,
     uint32 gasLimit
   ) public onlyOwner returns (bytes32) {
+    require(
+      keccak256(abi.encodePacked(toString(msg.sender))) == keccak256(abi.encodePacked(args[1])),
+      "Not the specified address"
+    );
+
     Functions.Request memory req;
     req.initializeRequest(Functions.Location.Inline, Functions.CodeLanguage.JavaScript, source);
     if (secrets.length > 0) {
@@ -82,5 +87,22 @@ contract FunctionsConsumer is FunctionsClient, ConfirmedOwner {
 
   function addSimulatedRequestId(address oracleAddress, bytes32 requestId) public onlyOwner {
     addExternalRequest(oracleAddress, requestId);
+  }
+
+  function toString(address account) public pure returns (string memory) {
+    return toString(abi.encodePacked(account));
+  }
+
+  function toString(bytes memory data) public pure returns (string memory) {
+    bytes memory alphabet = "0123456789abcdef";
+
+    bytes memory str = new bytes(2 + data.length * 2);
+    str[0] = "0";
+    str[1] = "x";
+    for (uint i = 0; i < data.length; i++) {
+      str[2 + i * 2] = alphabet[uint(uint8(data[i] >> 4))];
+      str[3 + i * 2] = alphabet[uint(uint8(data[i] & 0x0f))];
+    }
+    return string(str);
   }
 }
